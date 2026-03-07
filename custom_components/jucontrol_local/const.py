@@ -1,4 +1,4 @@
-"""Constants for the JUDO JUcontrol Local integration."""
+"""Constants for the JUcontrol local integration."""
 
 from __future__ import annotations
 
@@ -66,8 +66,17 @@ CARTRIDGE_TYPES: dict[int, str] = {
     13: "JP100",
 }
 
-# Vacation mode types (ZEWA)
-VACATION_TYPES: dict[int, str] = {
+# Vacation mode types
+# i-soft SAFE+: bitmask with bit 0=active, bit 1=U1, bit 2=U2, bit 3=U3
+# ZEWA: simple 0=off, 1=U1, 2=U2, 3=U3
+VACATION_MODES_SOFTENER: dict[str, int] = {
+    "off": 0x00,
+    "U1": 0x03,   # bit 0 (active) + bit 1 (U1)
+    "U2": 0x05,   # bit 0 (active) + bit 2 (U2)
+    "U3": 0x09,   # bit 0 (active) + bit 3 (U3)
+}
+
+VACATION_MODES_ZEWA: dict[int, str] = {
     0: "off",
     1: "U1",
     2: "U2",

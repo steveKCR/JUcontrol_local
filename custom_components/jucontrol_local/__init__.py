@@ -1,4 +1,4 @@
-"""The JUDO JUcontrol Local integration."""
+"""The JUcontrol local integration."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ type JudoConfigEntry = ConfigEntry
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: JudoConfigEntry) -> bool:
-    """Set up JUDO JUcontrol Local from a config entry."""
+    """Set up JUcontrol local from a config entry."""
     session = async_get_clientsession(hass)
     client = JudoApiClient(
         host=entry.data[CONF_HOST],

@@ -1,4 +1,4 @@
-"""Button platform for JUDO JUcontrol Local."""
+"""Button platform for JUcontrol local."""
 
 from __future__ import annotations
 

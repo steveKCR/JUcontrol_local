@@ -201,9 +201,7 @@ def get_platforms_for_device(type_code: int) -> list[str]:
     # Check if switches are needed
     if caps & {
         Capability.LEAK_PROTECTION,
-        Capability.VACATION_MODE,
         Capability.ZEWA_LEAK_PROTECTION,
-        Capability.ZEWA_VACATION,
         Capability.ZEWA_SLEEP,
     }:
         platforms.append("switch")
@@ -218,11 +216,13 @@ def get_platforms_for_device(type_code: int) -> list[str]:
     }:
         platforms.append("number")
 
-    # Check if selects are needed
+    # Check if selects are needed (includes vacation mode dropdown)
     if caps & {
         Capability.HARDNESS_UNIT,
         Capability.PUMP_CONTROL,
         Capability.FILL_VALVE,
+        Capability.VACATION_MODE,
+        Capability.ZEWA_VACATION,
     }:
         platforms.append("select")
 

@@ -1,4 +1,4 @@
-# JUDO JUcontrol Local
+# JUcontrol local
 
 [![HACS](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
@@ -41,7 +41,7 @@ Eine **rein lokale** Home Assistant Integration für JUDO Wasseraufbereitungsger
 1. Öffnen Sie **HACS** in Ihrer Home Assistant Instanz.
 2. Klicken Sie auf die drei Punkte oben rechts und wählen Sie **Benutzerdefinierte Repositories**.
 3. Fügen Sie `https://github.com/itsh-neumeier/JUcontrol_local` als **Integration** hinzu.
-4. Suchen Sie nach **JUDO JUcontrol Local** und klicken Sie **Herunterladen**.
+4. Suchen Sie nach **JUcontrol local** und klicken Sie **Herunterladen**.
 5. Starten Sie Home Assistant neu.
 
 ### Manuelle Installation
@@ -55,7 +55,7 @@ Eine **rein lokale** Home Assistant Integration für JUDO Wasseraufbereitungsger
 ## Konfiguration
 
 1. Gehen Sie zu **Einstellungen** > **Geräte & Dienste** > **Integration hinzufügen**.
-2. Suchen Sie nach **JUDO JUcontrol Local**.
+2. Suchen Sie nach **JUcontrol local**.
 3. Geben Sie Ihre Gerätedaten ein:
 
 | Parameter | Beschreibung | Standard |
@@ -89,8 +89,8 @@ Entitäten werden automatisch basierend auf dem erkannten Gerätetyp und seinen 
 | Salzvorrat | Aktuelles Salzgewicht (kg) | i-soft Varianten |
 | Salzreichweite | Geschätzte Salzreichweite (Tage) | i-soft Varianten |
 | Salzmangelwarnung | Warnschwelle (Tage) | i-soft Varianten |
-| Gesamtwassermenge | Gesamter Wasserverbrauch (L) | Die meisten Geräte |
-| Weichwassermenge | Produziertes Weichwasser (L) | Enthärter |
+| Gesamtwassermenge | Gesamter Wasserverbrauch (m³) | Die meisten Geräte |
+| Weichwassermenge | Produziertes Weichwasser (m³) | Enthärter |
 | Betriebstage | Gesamte Betriebstage | Alle Geräte |
 | Aktueller Durchfluss | Aktueller Wasserdurchfluss (L/h) | i-dos eco |
 | Restmenge im Behälter | Verbleibende Dosiermittelmenge (L) | i-dos eco |
@@ -111,8 +111,17 @@ Entitäten werden automatisch basierend auf dem erkannten Gerätetyp und seinen 
 | Entität | Beschreibung | Gerätetypen |
 |---|---|---|
 | Leckageschutz | Schließt/öffnet das Leckageschutzventil | i-soft SAFE+, ZEWA |
-| Urlaubsmodus | Aktiviert/deaktiviert den Urlaubsmodus | i-soft Varianten, ZEWA |
 | Sleepmodus | Aktiviert/deaktiviert den Sleepmodus | ZEWA i-SAFE |
+
+### Selects
+
+| Entität | Optionen | Gerätetypen |
+|---|---|---|
+| Urlaubsmodus | Aus, U1, U2, U3 | i-soft Varianten, ZEWA |
+| Härteeinheit | °dH, °eH, °fH, gpg, ppm, mmol, mval | i-soft Varianten |
+| Pumpenbetriebsart | Aus, Automatik, Manuell, Einzel | i-dos eco |
+| Füllventilmodus | Automatik, Manuell öffnen, Manuell schließen | i-fill 60 |
+| Mikroleckage-Modus | Deaktiviert, Nur Melden, Melden und Schließen | ZEWA i-SAFE |
 
 ### Numbers
 
@@ -125,15 +134,6 @@ Entitäten werden automatisch basierend auf dem erkannten Gerätetyp und seinen 
 | Max. Entnahmemenge | 0–65.535 L | i-soft Varianten |
 | Max. Volumenstrom | 0–65.535 L/h | i-soft Varianten |
 | Sleepmodusdauer | 1–10 h | ZEWA i-SAFE |
-
-### Selects
-
-| Entität | Optionen | Gerätetypen |
-|---|---|---|
-| Härteeinheit | °dH, °eH, °fH, gpg, ppm, mmol, mval | i-soft Varianten |
-| Pumpenbetriebsart | Aus, Automatik, Manuell, Einzel | i-dos eco |
-| Füllventilmodus | Automatik, Manuell öffnen, Manuell schließen | i-fill 60 |
-| Mikroleckage-Modus | Deaktiviert, Nur Melden, Melden und Schließen | ZEWA i-SAFE |
 
 ### Binärsensoren
 

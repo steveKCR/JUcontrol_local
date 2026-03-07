@@ -1,4 +1,4 @@
-"""Diagnostics support for JUDO JUcontrol Local."""
+"""Diagnostics support for JUcontrol local."""
 
 from __future__ import annotations
 

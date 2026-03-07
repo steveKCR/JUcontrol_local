@@ -1,4 +1,4 @@
-# JUDO JUcontrol Local
+# JUcontrol local
 
 [![HACS](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -41,7 +41,7 @@ A **local-only** Home Assistant integration for JUDO water treatment devices. Co
 1. Open **HACS** in your Home Assistant instance.
 2. Click the three dots in the top-right corner and select **Custom repositories**.
 3. Add `https://github.com/itsh-neumeier/JUcontrol_local` as an **Integration**.
-4. Search for **JUDO JUcontrol Local** and click **Download**.
+4. Search for **JUcontrol local** and click **Download**.
 5. Restart Home Assistant.
 
 ### Manual Installation
@@ -55,7 +55,7 @@ A **local-only** Home Assistant integration for JUDO water treatment devices. Co
 ## Configuration
 
 1. Go to **Settings** > **Devices & Services** > **Add Integration**.
-2. Search for **JUDO JUcontrol Local**.
+2. Search for **JUcontrol local**.
 3. Enter your device details:
 
 | Parameter | Description | Default |
@@ -89,8 +89,8 @@ Entities are automatically created based on the detected device type and its cap
 | Salt Supply | Current salt weight (kg) | i-soft variants |
 | Salt Range | Estimated salt range (days) | i-soft variants |
 | Salt Shortage Warning | Warning threshold (days) | i-soft variants |
-| Total Water Volume | Total water consumed (L) | Most devices |
-| Soft Water Volume | Soft water produced (L) | Softener devices |
+| Total Water Volume | Total water consumed (m³) | Most devices |
+| Soft Water Volume | Soft water produced (m³) | Softener devices |
 | Operating Days | Total operating days | All devices |
 | Current Flow Rate | Current water flow (L/h) | i-dos eco |
 | Container Remaining | Dosing agent remaining (L) | i-dos eco |
@@ -111,8 +111,17 @@ Entities are automatically created based on the detected device type and its cap
 | Entity | Description | Device Types |
 |---|---|---|
 | Leak Protection | Closes/opens the leak protection valve | i-soft SAFE+, ZEWA |
-| Vacation Mode | Enables/disables vacation mode | i-soft variants, ZEWA |
 | Sleep Mode | Enables/disables sleep mode | ZEWA i-SAFE |
+
+### Selects
+
+| Entity | Options | Device Types |
+|---|---|---|
+| Vacation Mode | Off, U1, U2, U3 | i-soft variants, ZEWA |
+| Hardness Unit | °dH, °eH, °fH, gpg, ppm, mmol, mval | i-soft variants |
+| Pump Operation Mode | Off, Auto, Manual, Single | i-dos eco |
+| Fill Valve Mode | Auto, Manual Open, Manual Close | i-fill 60 |
+| Micro-Leak Mode | Disabled, Notify Only, Notify and Close | ZEWA i-SAFE |
 
 ### Numbers
 
@@ -125,15 +134,6 @@ Entities are automatically created based on the detected device type and its cap
 | Max Extraction Volume | 0–65,535 L | i-soft variants |
 | Max Flow Rate | 0–65,535 L/h | i-soft variants |
 | Sleep Mode Duration | 1–10 h | ZEWA i-SAFE |
-
-### Selects
-
-| Entity | Options | Device Types |
-|---|---|---|
-| Hardness Unit | °dH, °eH, °fH, gpg, ppm, mmol, mval | i-soft variants |
-| Pump Operation Mode | Off, Auto, Manual, Single | i-dos eco |
-| Fill Valve Mode | Auto, Manual Open, Manual Close | i-fill 60 |
-| Micro-Leak Mode | Disabled, Notify Only, Notify and Close | ZEWA i-SAFE |
 
 ### Binary Sensors
 

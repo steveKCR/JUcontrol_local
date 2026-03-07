@@ -385,19 +385,16 @@ class JudoApiClient:
 
     # --- Vacation mode (softener) ---
 
-    async def set_vacation_mode(self, enable: bool, flags: int = 0x01) -> None:
-        """Set vacation mode (cmd 0x41).
+    async def set_vacation_mode_softener(self, flags: int) -> None:
+        """Set vacation mode for softener devices (cmd 0x41).
 
-        flags bitmask:
-          bit 0: vacation active
-          bit 5: micro-leak (0=notify, 1=notify+close)
-          bit 6: auto micro-leak test
-          bit 7: leak protection global OFF
+        flags bitmask (i-soft SAFE+):
+          0x00: off
+          0x03: U1 (bit 0 active + bit 1 U1)
+          0x05: U2 (bit 0 active + bit 2 U2)
+          0x09: U3 (bit 0 active + bit 3 U3)
         """
-        if enable:
-            await self.send_command("41", f"00{flags:02X}")
-        else:
-            await self.send_command("41", "0000")
+        await self.send_command("41", f"00{flags:02X}")
 
     # --- ZEWA i-SAFE commands ---
 
@@ -417,13 +414,16 @@ class JudoApiClient:
         """Stop ZEWA sleep mode (cmd 0x55)."""
         await self.send_command("55", "00")
 
-    async def zewa_start_vacation(self) -> None:
-        """Start ZEWA vacation mode (cmd 0x57)."""
-        await self.send_command("57", "00")
-
-    async def zewa_stop_vacation(self) -> None:
-        """Stop ZEWA vacation mode (cmd 0x58)."""
-        await self.send_command("58", "00")
+    async def zewa_set_vacation_type(self, mode: int) -> None:
+        """Set ZEWA vacation mode type (cmd 0x56). 0=off, 1=U1, 2=U2, 3=U3."""
+        if not 0 <= mode <= 3:
+            raise ValueError(f"Vacation mode must be 0-3, got {mode}")
+        await self.send_command("56", f"00{mode:02X}")
+        # Start or stop vacation based on mode
+        if mode > 0:
+            await self.send_command("57", "00")  # Start vacation
+        else:
+            await self.send_command("58", "00")  # Stop vacation
 
     async def zewa_reset_notification(self) -> None:
         """Reset ZEWA notification (cmd 0x63)."""

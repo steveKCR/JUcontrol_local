@@ -1,4 +1,4 @@
-"""Sensor platform for JUDO JUcontrol Local."""
+"""Sensor platform for JUcontrol local."""
 
 from __future__ import annotations
 
@@ -80,20 +80,22 @@ SENSOR_DESCRIPTIONS: tuple[JudoSensorEntityDescription, ...] = (
         translation_key="total_water",
         icon="mdi:water",
         state_class=SensorStateClass.TOTAL_INCREASING,
-        native_unit_of_measurement=UnitOfVolume.LITERS,
+        native_unit_of_measurement=UnitOfVolume.CUBIC_METERS,
         device_class=SensorDeviceClass.WATER,
+        suggested_display_precision=3,
         required_capability=Capability.TOTAL_WATER,
-        value_fn=lambda data: data.get("total_water"),
+        value_fn=lambda data: round(data.get("total_water", 0) / 1000, 3),
     ),
     JudoSensorEntityDescription(
         key="soft_water",
         translation_key="soft_water",
         icon="mdi:water-check",
         state_class=SensorStateClass.TOTAL_INCREASING,
-        native_unit_of_measurement=UnitOfVolume.LITERS,
+        native_unit_of_measurement=UnitOfVolume.CUBIC_METERS,
         device_class=SensorDeviceClass.WATER,
+        suggested_display_precision=3,
         required_capability=Capability.SOFT_WATER,
-        value_fn=lambda data: data.get("soft_water"),
+        value_fn=lambda data: round(data.get("soft_water", 0) / 1000, 3),
     ),
     JudoSensorEntityDescription(
         key="hardness_unit",

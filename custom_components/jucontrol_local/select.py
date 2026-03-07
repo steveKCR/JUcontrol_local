@@ -1,4 +1,4 @@
-"""Select platform for JUDO JUcontrol Local."""
+"""Select platform for JUcontrol local."""
 
 from __future__ import annotations
 
@@ -11,7 +11,14 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN, FILL_VALVE_MODES, HARDNESS_UNITS, PUMP_MODES
+from .const import (
+    DOMAIN,
+    FILL_VALVE_MODES,
+    HARDNESS_UNITS,
+    PUMP_MODES,
+    VACATION_MODES_SOFTENER,
+    VACATION_MODES_ZEWA,
+)
 from .coordinator import JudoDataCoordinator
 from .device_types import Capability
 from .entity import JudoEntity
@@ -22,7 +29,8 @@ class JudoSelectEntityDescription(SelectEntityDescription):
     """Describes a JUDO select entity."""
 
     required_capability: Capability
-    options_map: dict[int, str]
+    options_map: dict[int, str] | dict[str, int]
+    options_list: list[str] | None = None
     current_fn: Any = None
     select_fn: Any = None
 
@@ -64,6 +72,31 @@ SELECT_DESCRIPTIONS: tuple[JudoSelectEntityDescription, ...] = (
         current_fn=None,  # No read-back
         select_fn=lambda coord, val: coord.client.ifill_set_valve_mode(
             next(k for k, v in FILL_VALVE_MODES.items() if v == val)
+        ),
+    ),
+    # Softener vacation mode (i-soft SAFE+, i-soft PRO, i-soft)
+    JudoSelectEntityDescription(
+        key="vacation_mode",
+        translation_key="vacation_mode",
+        icon="mdi:palm-tree",
+        required_capability=Capability.VACATION_MODE,
+        options_map=VACATION_MODES_SOFTENER,
+        options_list=list(VACATION_MODES_SOFTENER.keys()),
+        current_fn=None,  # No read-back available
+        select_fn=lambda coord, val: coord.client.set_vacation_mode_softener(
+            VACATION_MODES_SOFTENER[val]
+        ),
+    ),
+    # ZEWA vacation mode
+    JudoSelectEntityDescription(
+        key="zewa_vacation_mode",
+        translation_key="vacation_mode",
+        icon="mdi:palm-tree",
+        required_capability=Capability.ZEWA_VACATION,
+        options_map=VACATION_MODES_ZEWA,
+        current_fn=None,
+        select_fn=lambda coord, val: coord.client.zewa_set_vacation_type(
+            next(k for k, v in VACATION_MODES_ZEWA.items() if v == val)
         ),
     ),
     JudoSelectEntityDescription(
@@ -116,7 +149,10 @@ class JudoSelect(JudoEntity, SelectEntity):
         """Initialize the select entity."""
         super().__init__(coordinator, description.key)
         self.entity_description = description
-        self._attr_options = list(description.options_map.values())
+        if description.options_list is not None:
+            self._attr_options = description.options_list
+        else:
+            self._attr_options = list(description.options_map.values())
         self._selected: str | None = None
 
     @property

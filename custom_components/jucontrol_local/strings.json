@@ -2,7 +2,7 @@
   "config": {
     "step": {
       "user": {
-        "title": "JUDO Device Setup",
+        "title": "JUcontrol Device Setup",
         "description": "Configure your JUDO water treatment device.",
         "data": {
           "host": "Host (IP address)",
@@ -25,7 +25,7 @@
   "options": {
     "step": {
       "init": {
-        "title": "JUDO Device Options",
+        "title": "JUcontrol Device Options",
         "data": {
           "scan_interval": "Polling interval"
         }
@@ -74,7 +74,6 @@
     },
     "switch": {
       "leak_protection": { "name": "Leak protection" },
-      "vacation_mode": { "name": "Vacation mode" },
       "sleep_mode": { "name": "Sleep mode" }
     },
     "number": {
@@ -90,6 +89,7 @@
       "set_hardness_unit": { "name": "Hardness unit" },
       "pump_mode": { "name": "Pump operation mode" },
       "fill_valve_mode": { "name": "Fill valve mode" },
+      "vacation_mode": { "name": "Vacation mode" },
       "micro_leak_mode": { "name": "Micro-leak mode" }
     }
   }

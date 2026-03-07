@@ -1,4 +1,4 @@
-"""Switch platform for JUDO JUcontrol Local."""
+"""Switch platform for JUcontrol local."""
 
 from __future__ import annotations
 
@@ -38,16 +38,6 @@ SWITCH_DESCRIPTIONS: tuple[JudoSwitchEntityDescription, ...] = (
         turn_off_fn=lambda coord: coord.client.open_leak_protection(),
         is_on_fn=None,  # No read-back available via API
     ),
-    # Softener vacation mode
-    JudoSwitchEntityDescription(
-        key="vacation_mode",
-        translation_key="vacation_mode",
-        icon="mdi:palm-tree",
-        required_capability=Capability.VACATION_MODE,
-        turn_on_fn=lambda coord: coord.client.set_vacation_mode(True),
-        turn_off_fn=lambda coord: coord.client.set_vacation_mode(False),
-        is_on_fn=None,
-    ),
     # ZEWA leak protection
     JudoSwitchEntityDescription(
         key="zewa_leak_protection",
@@ -56,16 +46,6 @@ SWITCH_DESCRIPTIONS: tuple[JudoSwitchEntityDescription, ...] = (
         required_capability=Capability.ZEWA_LEAK_PROTECTION,
         turn_on_fn=lambda coord: coord.client.zewa_close_leak_protection(),
         turn_off_fn=lambda coord: coord.client.zewa_open_leak_protection(),
-        is_on_fn=None,
-    ),
-    # ZEWA vacation mode
-    JudoSwitchEntityDescription(
-        key="zewa_vacation",
-        translation_key="vacation_mode",
-        icon="mdi:palm-tree",
-        required_capability=Capability.ZEWA_VACATION,
-        turn_on_fn=lambda coord: coord.client.zewa_start_vacation(),
-        turn_off_fn=lambda coord: coord.client.zewa_stop_vacation(),
         is_on_fn=None,
     ),
     # ZEWA sleep mode

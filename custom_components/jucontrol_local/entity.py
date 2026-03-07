@@ -1,4 +1,4 @@
-"""Base entity for JUDO JUcontrol Local."""
+"""Base entity for JUcontrol local."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Config flow for JUDO JUcontrol Local integration."""
+"""Config flow for JUcontrol local integration."""
 
 from __future__ import annotations
 
@@ -40,7 +40,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 
 
 class JudoConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for JUDO JUcontrol Local."""
+    """Handle a config flow for JUcontrol local."""
 
     VERSION = 1
 
@@ -103,7 +103,7 @@ class JudoConfigFlow(ConfigFlow, domain=DOMAIN):
 
 
 class JudoOptionsFlow(OptionsFlow):
-    """Handle options flow for JUDO JUcontrol Local."""
+    """Handle options flow for JUcontrol local."""
 
     def __init__(self, config_entry: ConfigEntry) -> None:
         """Initialize options flow."""

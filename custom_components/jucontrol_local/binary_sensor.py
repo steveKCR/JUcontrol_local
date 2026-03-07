@@ -1,4 +1,4 @@
-"""Binary sensor platform for JUDO JUcontrol Local."""
+"""Binary sensor platform for JUcontrol local."""
 
 from __future__ import annotations
 
