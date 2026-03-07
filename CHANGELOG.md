@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-03-07
+
+### Fixed
+
+- Water volume sensors (total water, soft water) now correctly display in m³ instead of HA converting back to liters
+- Salt supply number entity changed from grams to kilograms (0–50 kg, step 0.1 kg)
+
 ## [1.1.0] - 2026-03-07
 
 ### Changed
@@ -48,5 +55,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Diagnostics support
 - MIT License
 
+[1.1.1]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.1.1
 [1.1.0]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.1.0
 [1.0.0]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.0.0
