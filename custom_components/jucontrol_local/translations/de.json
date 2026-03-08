@@ -72,8 +72,10 @@
       "start_micro_leak_test": { "name": "Mikroleckageprüfung starten" },
       "start_learning_mode": { "name": "Lernmodus starten" }
     },
+    "valve": {
+      "leak_protection": { "name": "Leckageschutz" }
+    },
     "switch": {
-      "leak_protection": { "name": "Leckageschutz" },
       "sleep_mode": { "name": "Sleepmodus" }
     },
     "number": {

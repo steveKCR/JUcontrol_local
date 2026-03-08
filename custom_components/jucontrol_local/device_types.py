@@ -198,10 +198,15 @@ def get_platforms_for_device(type_code: int) -> list[str]:
     }:
         platforms.append("button")
 
-    # Check if switches are needed
+    # Check if valves are needed (leak protection)
     if caps & {
         Capability.LEAK_PROTECTION,
         Capability.ZEWA_LEAK_PROTECTION,
+    }:
+        platforms.append("valve")
+
+    # Check if switches are needed
+    if caps & {
         Capability.ZEWA_SLEEP,
     }:
         platforms.append("switch")

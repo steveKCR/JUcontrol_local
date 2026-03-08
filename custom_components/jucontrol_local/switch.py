@@ -28,26 +28,6 @@ class JudoSwitchEntityDescription(SwitchEntityDescription):
 
 
 SWITCH_DESCRIPTIONS: tuple[JudoSwitchEntityDescription, ...] = (
-    # Softener leak protection (closed = protected = ON)
-    JudoSwitchEntityDescription(
-        key="leak_protection",
-        translation_key="leak_protection",
-        icon="mdi:shield-lock",
-        required_capability=Capability.LEAK_PROTECTION,
-        turn_on_fn=lambda coord: coord.client.close_leak_protection(),
-        turn_off_fn=lambda coord: coord.client.open_leak_protection(),
-        is_on_fn=None,  # No read-back available via API
-    ),
-    # ZEWA leak protection
-    JudoSwitchEntityDescription(
-        key="zewa_leak_protection",
-        translation_key="leak_protection",
-        icon="mdi:shield-lock",
-        required_capability=Capability.ZEWA_LEAK_PROTECTION,
-        turn_on_fn=lambda coord: coord.client.zewa_close_leak_protection(),
-        turn_off_fn=lambda coord: coord.client.zewa_open_leak_protection(),
-        is_on_fn=None,
-    ),
     # ZEWA sleep mode
     JudoSwitchEntityDescription(
         key="zewa_sleep",
