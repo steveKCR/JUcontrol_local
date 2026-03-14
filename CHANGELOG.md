@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-03-14
+
 ### Added
 
 - Home Assistant 2026.3+ integration branding assets under `custom_components/jucontrol_local/brand/`
@@ -62,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Diagnostics support
 - MIT License
 
+[1.2.0]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.2.0
 [1.1.1]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.1.1
 [1.1.0]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.1.0
 [1.0.0]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.0.0
