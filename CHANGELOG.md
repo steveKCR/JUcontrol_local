@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-03-21
+
+### Fixed
+
+- Existing installations now migrate `total_water` and `soft_water` sensors to display in `m³` instead of liters
+
+### Added
+
+- README automation example for daily salt supply reminders based on `Salt range` and `Salt shortage warning`
+
 ## [1.2.0] - 2026-03-14
 
 ### Added
@@ -64,6 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Diagnostics support
 - MIT License
 
+[1.2.1]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.2.1
 [1.2.0]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.2.0
 [1.1.1]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.1.1
 [1.1.0]: https://github.com/itsh-neumeier/JUcontrol_local/releases/tag/v1.1.0

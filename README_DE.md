@@ -176,6 +176,46 @@ Wenn Datei, Pfad oder Domain nicht passen, liefert Home Assistant ein Standard-P
 
 ---
 
+## Automatisierungsbeispiel: Salzvorrat
+
+Die folgende Automation sendet sofort eine Benachrichtigung, wenn die `Salzreichweite` auf oder unter die in `Salzmangelwarnung` gesetzte Anzahl Tage faellt.
+Zusätzlich erinnert sie taeglich um `09:00` erneut, bis der Salzvorrat wieder ueber dem gesetzten Grenzwert liegt.
+
+Passe vor dem Einfuegen bitte die Entity-IDs und den Benachrichtigungsdienst an dein System an:
+
+```yaml
+alias: JUcontrol Salzvorrat Erinnerung
+description: Meldet niedrigen Salzvorrat sofort und danach taeglich, solange der Grenzwert unterschritten ist.
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - sensor.jucontrol_local_salzreichweite
+      - sensor.jucontrol_local_salzmangelwarnung
+  - platform: time
+    at: "09:00:00"
+condition:
+  - condition: template
+    value_template: >
+      {{ states('sensor.jucontrol_local_salzreichweite') | float(999) <=
+         states('sensor.jucontrol_local_salzmangelwarnung') | float(0) }}
+action:
+  - service: notify.notify
+    data:
+      title: JUcontrol Salzvorrat
+      message: >
+        Salz nachfuellen. Verbleibende Salzreichweite:
+        {{ states('sensor.jucontrol_local_salzreichweite') }} Tage.
+        Grenzwert Salzmangelwarnung:
+        {{ states('sensor.jucontrol_local_salzmangelwarnung') }} Tage.
+```
+
+Wenn du den Grenzwert direkt in Home Assistant anpassen moechtest, nutze die Number-Entitaet
+`Salzmangelwarnung (setzen)`. Sobald die `Salzreichweite` wieder groesser als die aktuelle
+`Salzmangelwarnung` ist, stoppt die taegliche Erinnerung automatisch.
+
+---
+
 ## Fehlerbehebung
 
 | Problem | Lösung |
