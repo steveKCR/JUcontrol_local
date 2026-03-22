@@ -66,7 +66,6 @@ NUMBER_DESCRIPTIONS: tuple[JudoNumberEntityDescription, ...] = (
         native_min_value=1,
         native_max_value=90,
         native_step=1,
-        native_unit_of_measurement=UnitOfTime.DAYS,
         mode=NumberMode.BOX,
         entity_category=EntityCategory.CONFIG,
         required_capability=Capability.SET_SALT,

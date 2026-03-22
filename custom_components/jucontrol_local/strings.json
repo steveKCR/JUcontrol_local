@@ -36,8 +36,8 @@
     "sensor": {
       "water_hardness": { "name": "Water hardness" },
       "salt_weight": { "name": "Salt supply" },
-      "salt_range": { "name": "Salt range" },
-      "salt_shortage_warning": { "name": "Salt shortage warning" },
+      "salt_range": { "name": "Salt range (days)" },
+      "salt_shortage_warning": { "name": "Salt shortage warning (days)" },
       "total_water": { "name": "Total water volume" },
       "soft_water": { "name": "Soft water volume" },
       "hardness_unit": { "name": "Hardness unit" },
@@ -81,7 +81,7 @@
     "number": {
       "set_water_hardness": { "name": "Desired water hardness" },
       "set_salt_supply": { "name": "Salt supply (set)" },
-      "set_salt_shortage_warning": { "name": "Salt shortage warning (set)" },
+      "set_salt_shortage_warning": { "name": "Salt shortage warning (days set)" },
       "set_max_extraction_duration": { "name": "Max extraction duration (set)" },
       "set_max_extraction_volume": { "name": "Max extraction volume (set)" },
       "set_max_flow_rate": { "name": "Max flow rate (set)" },

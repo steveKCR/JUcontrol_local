@@ -24,6 +24,13 @@ _WATER_VOLUME_SENSOR_UNITS = {
     "soft_water": UnitOfVolume.CUBIC_METERS,
 }
 
+_DAY_VALUE_ENTITIES = {
+    ("sensor", "salt_range"),
+    ("sensor", "salt_shortage_warning"),
+    ("sensor", "operating_days"),
+    ("number", "set_salt_shortage_warning"),
+}
+
 
 async def async_setup_entry(hass: HomeAssistant, entry: JudoConfigEntry) -> bool:
     """Set up JUcontrol local from a config entry."""
@@ -48,7 +55,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: JudoConfigEntry) -> bool
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
-    await _async_migrate_water_volume_units(hass, entry)
+    await _async_migrate_entity_units(hass, entry)
 
     platforms = get_platforms_for_device(device_type)
     await hass.config_entries.async_forward_entry_setups(entry, platforms)
@@ -76,10 +83,10 @@ async def _async_update_listener(
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def _async_migrate_water_volume_units(
+async def _async_migrate_entity_units(
     hass: HomeAssistant, entry: JudoConfigEntry
 ) -> None:
-    """Force water total sensors to display in cubic meters for existing installs."""
+    """Migrate persisted units for entities whose display changed."""
     if (device_number := entry.data.get("device_number")) is None:
         return
 
@@ -98,4 +105,19 @@ async def _async_migrate_water_volume_units(
         entity_registry.async_update_entity(
             entity_id,
             unit_of_measurement=unit,
+        )
+
+    for domain, entity_key in _DAY_VALUE_ENTITIES:
+        unique_id = f"judo_{device_number}_{entity_key}"
+        entity_id = entity_registry.async_get_entity_id(domain, DOMAIN, unique_id)
+        if entity_id is None:
+            continue
+
+        registry_entry = entity_registry.async_get(entity_id)
+        if registry_entry is None or registry_entry.unit_of_measurement is None:
+            continue
+
+        entity_registry.async_update_entity(
+            entity_id,
+            unit_of_measurement=None,
         )

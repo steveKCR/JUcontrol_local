@@ -36,8 +36,8 @@
     "sensor": {
       "water_hardness": { "name": "Wasserhärte" },
       "salt_weight": { "name": "Salzvorrat" },
-      "salt_range": { "name": "Salzreichweite" },
-      "salt_shortage_warning": { "name": "Salzmangelwarnung" },
+      "salt_range": { "name": "Salzreichweite (Tage)" },
+      "salt_shortage_warning": { "name": "Salzmangelwarnung (Tage)" },
       "total_water": { "name": "Gesamtwassermenge" },
       "soft_water": { "name": "Weichwassermenge" },
       "hardness_unit": { "name": "Härteeinheit" },
@@ -81,7 +81,7 @@
     "number": {
       "set_water_hardness": { "name": "Wunschwasserhärte" },
       "set_salt_supply": { "name": "Salzvorrat (setzen)" },
-      "set_salt_shortage_warning": { "name": "Salzmangelwarnung (setzen)" },
+      "set_salt_shortage_warning": { "name": "Salzmangelwarnung (Tage setzen)" },
       "set_max_extraction_duration": { "name": "Max. Entnahmedauer (setzen)" },
       "set_max_extraction_volume": { "name": "Max. Entnahmemenge (setzen)" },
       "set_max_flow_rate": { "name": "Max. Volumenstrom (setzen)" },
