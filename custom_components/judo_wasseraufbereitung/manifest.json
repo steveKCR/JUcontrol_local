@@ -3,10 +3,10 @@
   "name": "JUDO Wasseraufbereitung",
   "codeowners": ["@steveKCR"],
   "config_flow": true,
-  "documentation": "https://github.com/steveKCR/JUcontrol_local",
+  "documentation": "https://github.com/steveKCR/ha-judo-wasseraufbereitung",
   "integration_type": "device",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/steveKCR/JUcontrol_local/issues",
+  "issue_tracker": "https://github.com/steveKCR/ha-judo-wasseraufbereitung/issues",
   "requirements": [],
   "version": "1.0.1"
 }

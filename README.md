@@ -2,7 +2,7 @@
 
 [![HACS](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![GitHub Release](https://img.shields.io/github/v/release/steveKCR/JUcontrol_local)](https://github.com/steveKCR/JUcontrol_local/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/steveKCR/ha-judo-wasseraufbereitung)](https://github.com/steveKCR/ha-judo-wasseraufbereitung/releases)
 
 Eine schlanke, **lokale** Home-Assistant-Integration für den **JUDO i-soft K SAFE+** Wasserenthärter. Kommuniziert direkt mit dem Gerät im LAN — keine Cloud, kein Server, keine Abhängigkeiten.
 
@@ -46,7 +46,7 @@ Eine schlanke, **lokale** Home-Assistant-Integration für den **JUDO i-soft K SA
 ### Über HACS (empfohlen)
 
 1. HACS öffnen → Integrationen → Menü oben rechts → **Benutzerdefinierte Repositories**
-2. Repository: `https://github.com/steveKCR/JUcontrol_local`
+2. Repository: `https://github.com/steveKCR/ha-judo-wasseraufbereitung`
 3. Kategorie: **Integration** → Hinzufügen
 4. Anschließend „**JUDO Wasseraufbereitung**" suchen und installieren
 5. Home Assistant neu starten
