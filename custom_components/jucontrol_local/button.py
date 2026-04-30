@@ -27,6 +27,13 @@ class JudoButtonEntityDescription(ButtonEntityDescription):
 
 BUTTON_DESCRIPTIONS: tuple[JudoButtonEntityDescription, ...] = (
     JudoButtonEntityDescription(
+        key="salt_refill_25kg",
+        translation_key="salt_refill_25kg",
+        icon="mdi:shaker-outline",
+        required_capability=Capability.SET_SALT,
+        press_fn=lambda coord: coord.client.set_salt_supply(25000),
+    ),
+    JudoButtonEntityDescription(
         key="start_regeneration",
         translation_key="start_regeneration",
         icon="mdi:refresh",

@@ -10,6 +10,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.restore_state import RestoreEntity
 
 from .const import (
     DOMAIN,
@@ -38,6 +39,7 @@ class JudoSelectEntityDescription(SelectEntityDescription):
     options_list: list[str] | None = None
     current_fn: Any = None
     select_fn: Any = None
+    default_option: str | None = None  # restored after HA restart if no read-back
 
 
 SELECT_DESCRIPTIONS: tuple[JudoSelectEntityDescription, ...] = (
@@ -46,6 +48,7 @@ SELECT_DESCRIPTIONS: tuple[JudoSelectEntityDescription, ...] = (
         translation_key="set_hardness_unit",
         icon="mdi:format-text",
         entity_category=EntityCategory.CONFIG,
+        entity_registry_enabled_default=False,
         required_capability=Capability.HARDNESS_UNIT,
         options_map=HARDNESS_UNITS,
         current_fn=lambda data: HARDNESS_UNITS.get(data.get("hardness_unit", 0)),
@@ -88,6 +91,7 @@ SELECT_DESCRIPTIONS: tuple[JudoSelectEntityDescription, ...] = (
         options_map=VACATION_MODES_SOFTENER,
         options_list=list(VACATION_MODES_SOFTENER.keys()),
         current_fn=None,  # No read-back available
+        default_option="off",
         select_fn=lambda coord, val: coord.client.set_vacation_mode_softener(
             VACATION_MODES_SOFTENER[val]
         ),
@@ -126,6 +130,7 @@ SELECT_DESCRIPTIONS: tuple[JudoSelectEntityDescription, ...] = (
         required_capability=Capability.WATER_SCENES,
         options_map=ISOFT_SCENES,
         current_fn=None,
+        default_option="normal_operation",
         select_fn=lambda coord, val: coord.client.pro_activate_scene(
             next(k for k, v in ISOFT_SCENES.items() if v == val)
         ),
@@ -138,6 +143,7 @@ SELECT_DESCRIPTIONS: tuple[JudoSelectEntityDescription, ...] = (
         required_capability=Capability.SCENES,
         options_map=PRO_SCENES,
         current_fn=None,
+        default_option="everyday",
         select_fn=lambda coord, val: coord.client.pro_activate_scene(
             next(k for k, v in PRO_SCENES.items() if v == val)
         ),
@@ -189,7 +195,7 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class JudoSelect(JudoEntity, SelectEntity):
+class JudoSelect(JudoEntity, SelectEntity, RestoreEntity):
     """Representation of a JUDO select entity."""
 
     entity_description: JudoSelectEntityDescription
@@ -206,7 +212,14 @@ class JudoSelect(JudoEntity, SelectEntity):
             self._attr_options = description.options_list
         else:
             self._attr_options = list(description.options_map.values())
-        self._selected: str | None = None
+        self._selected: str | None = description.default_option
+
+    async def async_added_to_hass(self) -> None:
+        """Restore last known state after HA restart."""
+        await super().async_added_to_hass()
+        if last_state := await self.async_get_last_state():
+            if last_state.state in self._attr_options:
+                self._selected = last_state.state
 
     @property
     def current_option(self) -> str | None:
@@ -215,7 +228,6 @@ class JudoSelect(JudoEntity, SelectEntity):
             result = self.entity_description.current_fn(self.coordinator.data)
             if result is not None:
                 self._selected = result
-                return result
         return self._selected
 
     async def async_select_option(self, option: str) -> None:

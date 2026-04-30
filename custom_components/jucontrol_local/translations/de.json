@@ -77,6 +77,7 @@
       "learning_mode_active": { "name": "Lernmodus aktiv" }
     },
     "button": {
+      "salt_refill_25kg": { "name": "Salz nachgefüllt (25 kg)" },
       "start_regeneration": { "name": "Regeneration starten" },
       "reset_notification": { "name": "Meldung zurücksetzen" },
       "start_micro_leak_test": { "name": "Mikroleckageprüfung starten" },

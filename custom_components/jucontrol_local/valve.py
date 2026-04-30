@@ -86,7 +86,7 @@ class JudoValve(JudoEntity, ValveEntity):
         """Initialize the valve."""
         super().__init__(coordinator, description.key)
         self.entity_description = description
-        self._attr_is_closed: bool | None = None
+        self._attr_is_closed: bool = False  # assume open until told otherwise
 
     async def async_open_valve(self, **kwargs: Any) -> None:
         """Open the valve."""

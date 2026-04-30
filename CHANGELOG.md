@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-04-30
+
+### Added
+
+- **"Salz nachgefüllt (25 kg)" button** (`salt_refill_25kg`): One-tap button that sets salt supply to 25 kg — no manual input needed
+- **Select state persistence** (`RestoreEntity`): Vacation mode and water scene selects now restore their last known value after HA restart instead of showing "Unknown"; initial default is "off" / "Normalbetrieb" for new installations
+
+### Changed
+
+- **Valve initial state**: Leak protection valve now starts as "open" (assumed) instead of unknown, eliminating the confusing lightning-bolt icon
+- **Water hardness number**: Switched to slider mode for easier adjustment
+- **Diagnostic / advanced entities disabled by default** (can be re-enabled individually in HA): `hardness_unit` select, `set_salt_shortage_warning`, `set_max_extraction_duration`, `set_max_extraction_volume`, `set_max_flow_rate` numbers, `salt_shortage_warning`, `max_extraction_duration`, `max_extraction_volume`, `max_flow_rate`, `operating_days`, `commissioning_date`, `service_address` sensors
+
 ## [1.4.0] - 2026-04-30
 
 ### Added

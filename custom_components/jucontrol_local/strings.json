@@ -77,6 +77,7 @@
       "learning_mode_active": { "name": "Learning mode active" }
     },
     "button": {
+      "salt_refill_25kg": { "name": "Salt refilled (25 kg)" },
       "start_regeneration": { "name": "Start regeneration" },
       "reset_notification": { "name": "Reset notification" },
       "start_micro_leak_test": { "name": "Start micro-leak test" },
