@@ -7,6 +7,7 @@ import logging
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api_client import JudoApiClient
@@ -15,7 +16,7 @@ from .coordinator import JudoCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.SELECT, Platform.VALVE]
+PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.SELECT, Platform.SWITCH]
 
 type JudoConfigEntry = ConfigEntry
 
@@ -37,6 +38,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: JudoConfigEntry) -> bool
     coordinator = JudoCoordinator(hass, client, scan_interval)
     await coordinator.async_config_entry_first_refresh()
 
+    _async_remove_legacy_valve_entity(hass, coordinator.serial_number)
+
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
@@ -52,6 +55,14 @@ async def async_unload_entry(hass: HomeAssistant, entry: JudoConfigEntry) -> boo
     ):
         hass.data[DOMAIN].pop(entry.entry_id)
     return unload_ok
+
+
+def _async_remove_legacy_valve_entity(hass: HomeAssistant, serial: int) -> None:
+    """Alte Ventil-Entität (Leckageschutz) nach Umstellung auf Switch entfernen."""
+    registry = er.async_get(hass)
+    legacy_uid = f"judo_{serial}_leak_protection"
+    if entity_id := registry.async_get_entity_id("valve", DOMAIN, legacy_uid):
+        registry.async_remove(entity_id)
 
 
 async def _async_update_listener(

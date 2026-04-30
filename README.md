@@ -14,7 +14,7 @@ Eine schlanke, **lokale** Home-Assistant-Integration für den **JUDO i-soft K SA
 
 - **100 % lokal** über die JUDO REST-API
 - **Wunschwasserhärte als Dropdown** (1–30 °dH)
-- **Leckageschutz öffnen/schließen**
+- **Wasser an/aus** (Schalter, Ein = fließt, Aus = abgesperrt)
 - **Live-Durchfluss** (abgeleitet aus Polling-Delta)
 - **Beide Wassermengen-Sensoren** in m³ und Litern
 - **30-Sekunden-Polling** standardmäßig
@@ -33,7 +33,7 @@ Eine schlanke, **lokale** Home-Assistant-Integration für den **JUDO i-soft K SA
 | Sensor | Salzvorrat | kg |
 | Sensor | Aktuelle Wasserhärte | °dH |
 | Select | Wunschwasserhärte | Dropdown 1–30 °dH |
-| Valve | Leckageschutz | offen/geschlossen |
+| Switch | Wasser an/aus | Ein = Wasser fließt, Aus = Leckageventil zu |
 
 ## Voraussetzungen
 

@@ -46,8 +46,8 @@
     "select": {
       "set_water_hardness": { "name": "Wunschwasserhärte" }
     },
-    "valve": {
-      "leak_protection": { "name": "Leckageschutz" }
+    "switch": {
+      "water_supply": { "name": "Wasser an/aus" }
     }
   }
 }
