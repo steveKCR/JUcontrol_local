@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.2] - 2026-04-30
+
+### Fixed
+
+- **Auto-disable legacy entities on upgrade**: Existing installations now automatically disable the entities that became `entity_registry_enabled_default=False` in v1.6.0/v1.6.1 (vacation mode, scenes, set-numbers, advanced sensors, regeneration/salt buttons). Migration runs once per config entry; a flag is stored in `entry.data` to prevent re-running. Users can still manually re-enable any entity in Settings → Devices → JUcontrol → Entities
+
 ## [1.6.1] - 2026-04-30
 
 ### Fixed

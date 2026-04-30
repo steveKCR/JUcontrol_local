@@ -31,6 +31,42 @@ _DAY_VALUE_ENTITIES = {
     ("number", "set_salt_shortage_warning"),
 }
 
+# Entities that are now disabled by default (v1.6.x cleanup).
+# Existing installations have these enabled, so we disable them once during
+# migration. Marker is stored in entry.data to avoid running migration twice.
+_DISABLE_BY_DEFAULT_ENTITIES = {
+    # Sensors
+    ("sensor", "hardness_unit"),
+    ("sensor", "operating_days"),
+    ("sensor", "commissioning_date"),
+    ("sensor", "service_address"),
+    ("sensor", "salt_shortage_warning"),
+    ("sensor", "max_extraction_duration"),
+    ("sensor", "max_extraction_volume"),
+    ("sensor", "max_flow_rate"),
+    # Numbers
+    ("number", "set_water_hardness"),
+    ("number", "set_salt_supply"),
+    ("number", "set_salt_shortage_warning"),
+    ("number", "set_max_extraction_duration"),
+    ("number", "set_max_extraction_volume"),
+    ("number", "set_max_flow_rate"),
+    # Selects
+    ("select", "hardness_unit"),
+    ("select", "vacation_mode"),
+    ("select", "zewa_vacation_mode"),
+    ("select", "isoft_scene"),
+    ("select", "pro_scene"),
+    # Buttons
+    ("button", "salt_refill_25kg"),
+    ("button", "start_regeneration"),
+    ("button", "reset_notification"),
+    ("button", "start_micro_leak_test"),
+    ("button", "start_learning_mode"),
+}
+
+_MIGRATION_FLAG = "v1_6_disable_done"
+
 
 async def async_setup_entry(hass: HomeAssistant, entry: JudoConfigEntry) -> bool:
     """Set up JUcontrol local from a config entry."""
@@ -56,6 +92,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: JudoConfigEntry) -> bool
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
     await _async_migrate_entity_units(hass, entry)
+    await _async_disable_legacy_entities(hass, entry)
 
     platforms = get_platforms_for_device(device_type)
     await hass.config_entries.async_forward_entry_setups(entry, platforms)
@@ -121,3 +158,46 @@ async def _async_migrate_entity_units(
             entity_id,
             unit_of_measurement=None,
         )
+
+
+async def _async_disable_legacy_entities(
+    hass: HomeAssistant, entry: JudoConfigEntry
+) -> None:
+    """Disable entities that were enabled before v1.6 cleanup.
+
+    Runs only once per config entry; tracked via a flag in entry.data.
+    Users can re-enable individual entities manually if needed.
+    """
+    if entry.data.get(_MIGRATION_FLAG):
+        return
+
+    if (device_number := entry.data.get("device_number")) is None:
+        return
+
+    entity_registry = er.async_get(hass)
+    disabled_count = 0
+
+    for domain, entity_key in _DISABLE_BY_DEFAULT_ENTITIES:
+        unique_id = f"judo_{device_number}_{entity_key}"
+        entity_id = entity_registry.async_get_entity_id(domain, DOMAIN, unique_id)
+        if entity_id is None:
+            continue
+
+        registry_entry = entity_registry.async_get(entity_id)
+        if registry_entry is None or registry_entry.disabled_by is not None:
+            continue
+
+        entity_registry.async_update_entity(
+            entity_id,
+            disabled_by=er.RegistryEntryDisabler.INTEGRATION,
+        )
+        disabled_count += 1
+
+    if disabled_count > 0:
+        _LOGGER.info(
+            "Disabled %d legacy entities during v1.6 migration", disabled_count
+        )
+
+    hass.config_entries.async_update_entry(
+        entry, data={**entry.data, _MIGRATION_FLAG: True}
+    )
