@@ -12,7 +12,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import UnitOfMass, UnitOfTime, UnitOfVolume, UnitOfVolumeFlowRate
+from homeassistant.const import UnitOfMass, UnitOfTime, UnitOfVolume
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -98,6 +98,17 @@ SENSOR_DESCRIPTIONS: tuple[JudoSensorEntityDescription, ...] = (
         value_fn=lambda data: round(data.get("soft_water", 0) / 1000, 3),
     ),
     JudoSensorEntityDescription(
+        key="current_flow_rate",
+        translation_key="current_flow_rate",
+        icon="mdi:water-pump",
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement="L/h",
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        required_capability=Capability.TOTAL_WATER,
+        value_fn=lambda data: data.get("current_flow_rate"),
+    ),
+    JudoSensorEntityDescription(
         key="hardness_unit",
         translation_key="hardness_unit",
         icon="mdi:format-text",
@@ -114,6 +125,23 @@ SENSOR_DESCRIPTIONS: tuple[JudoSensorEntityDescription, ...] = (
         entity_category=EntityCategory.DIAGNOSTIC,
         required_capability=Capability.OPERATING_HOURS,
         value_fn=lambda data: data.get("operating_hours", {}).get("days", 0),
+    ),
+    # --- Static device info (all devices, no capability gate) ---
+    JudoSensorEntityDescription(
+        key="commissioning_date",
+        translation_key="commissioning_date",
+        icon="mdi:calendar-check-outline",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        required_capability=None,
+        value_fn=lambda data: data.get("commissioning_date"),
+    ),
+    JudoSensorEntityDescription(
+        key="service_address",
+        translation_key="service_address",
+        icon="mdi:card-account-phone-outline",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        required_capability=None,
+        value_fn=lambda data: data.get("service_address") or None,
     ),
     # --- Extraction limits (diagnostic) ---
     JudoSensorEntityDescription(
@@ -200,6 +228,16 @@ SENSOR_DESCRIPTIONS: tuple[JudoSensorEntityDescription, ...] = (
         value_fn=lambda data: data.get("absence_limits", {}).get("duration", 0),
     ),
     # --- i-dos eco sensors ---
+    JudoSensorEntityDescription(
+        key="idos_water_consumption",
+        translation_key="idos_water_consumption",
+        icon="mdi:water-pump",
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        native_unit_of_measurement=UnitOfVolume.LITERS,
+        device_class=SensorDeviceClass.WATER,
+        required_capability=Capability.DOSING_STATUS,
+        value_fn=lambda data: data.get("idos_status", {}).get("water_consumption", 0),
+    ),
     JudoSensorEntityDescription(
         key="idos_current_flow",
         translation_key="idos_current_flow",
@@ -295,6 +333,64 @@ SENSOR_DESCRIPTIONS: tuple[JudoSensorEntityDescription, ...] = (
         icon="mdi:flash-outline",
         required_capability=Capability.FILL_LIMITS,
         value_fn=lambda data: data.get("ifill_limits", {}).get("max_conductivity", 0),
+    ),
+    JudoSensorEntityDescription(
+        key="ifill_hysteresis_fill_pressure",
+        translation_key="ifill_hysteresis_fill_pressure",
+        icon="mdi:gauge-low",
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement="bar",
+        device_class=SensorDeviceClass.PRESSURE,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        required_capability=Capability.FILL_LIMITS,
+        value_fn=lambda data: data.get("ifill_limits", {}).get(
+            "hysteresis_fill_pressure", 0
+        ),
+    ),
+    JudoSensorEntityDescription(
+        key="ifill_max_fill_cycles",
+        translation_key="ifill_max_fill_cycles",
+        icon="mdi:counter",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        required_capability=Capability.FILL_LIMITS,
+        value_fn=lambda data: data.get("ifill_limits", {}).get("max_fill_cycles", 0),
+    ),
+    JudoSensorEntityDescription(
+        key="ifill_max_fill_time",
+        translation_key="ifill_max_fill_time",
+        icon="mdi:timer-outline",
+        native_unit_of_measurement=UnitOfTime.MINUTES,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        required_capability=Capability.FILL_LIMITS,
+        value_fn=lambda data: data.get("ifill_limits", {}).get("max_fill_time", 0),
+    ),
+    JudoSensorEntityDescription(
+        key="ifill_max_fill_volume",
+        translation_key="ifill_max_fill_volume",
+        icon="mdi:water-outline",
+        native_unit_of_measurement=UnitOfVolume.LITERS,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        required_capability=Capability.FILL_LIMITS,
+        value_fn=lambda data: data.get("ifill_limits", {}).get("max_fill_volume", 0),
+    ),
+    JudoSensorEntityDescription(
+        key="ifill_cartridge_capacity",
+        translation_key="ifill_cartridge_capacity",
+        icon="mdi:filter-outline",
+        native_unit_of_measurement=UnitOfVolume.LITERS,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        required_capability=Capability.FILL_LIMITS,
+        value_fn=lambda data: data.get("ifill_limits", {}).get(
+            "cartridge_capacity", 0
+        ),
+    ),
+    JudoSensorEntityDescription(
+        key="ifill_heating_content",
+        translation_key="ifill_heating_content",
+        icon="mdi:thermometer-water",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        required_capability=Capability.FILL_LIMITS,
+        value_fn=lambda data: data.get("ifill_limits", {}).get("heating_content", 0),
     ),
 )
 

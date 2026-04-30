@@ -13,8 +13,12 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import (
     DOMAIN,
+    DOSING_CONCENTRATION,
     FILL_VALVE_MODES,
     HARDNESS_UNITS,
+    IFILL_ALARM_RELAY_MODES,
+    MICRO_LEAK_SETTINGS,
+    PRO_SCENES,
     PUMP_MODES,
     VACATION_MODES_SOFTENER,
     VACATION_MODES_ZEWA,
@@ -105,16 +109,52 @@ SELECT_DESCRIPTIONS: tuple[JudoSelectEntityDescription, ...] = (
         icon="mdi:water-alert-outline",
         entity_category=EntityCategory.CONFIG,
         required_capability=Capability.ZEWA_MICRO_LEAK,
-        options_map={0: "disabled", 1: "notify_only", 2: "notify_and_close"},
-        current_fn=lambda data: {0: "disabled", 1: "notify_only", 2: "notify_and_close"}.get(
+        options_map=MICRO_LEAK_SETTINGS,
+        current_fn=lambda data: MICRO_LEAK_SETTINGS.get(
             data.get("micro_leak_setting", 0)
         ),
         select_fn=lambda coord, val: coord.client.zewa_set_micro_leak(
-            next(
-                k
-                for k, v in {0: "disabled", 1: "notify_only", 2: "notify_and_close"}.items()
-                if v == val
-            )
+            next(k for k, v in MICRO_LEAK_SETTINGS.items() if v == val)
+        ),
+    ),
+    # i-soft PRO water scenes
+    JudoSelectEntityDescription(
+        key="pro_scene",
+        translation_key="pro_scene",
+        icon="mdi:water-sync",
+        required_capability=Capability.SCENES,
+        options_map=PRO_SCENES,
+        current_fn=None,
+        select_fn=lambda coord, val: coord.client.pro_activate_scene(
+            next(k for k, v in PRO_SCENES.items() if v == val)
+        ),
+    ),
+    # i-dos eco dosing concentration
+    JudoSelectEntityDescription(
+        key="idos_concentration_select",
+        translation_key="idos_concentration_select",
+        icon="mdi:flask-outline",
+        entity_category=EntityCategory.CONFIG,
+        required_capability=Capability.DOSING_CONTROL,
+        options_map=DOSING_CONCENTRATION,
+        current_fn=lambda data: DOSING_CONCENTRATION.get(
+            data.get("idos_status", {}).get("concentration", 0)
+        ),
+        select_fn=lambda coord, val: coord.client.idos_set_concentration(
+            next(k for k, v in DOSING_CONCENTRATION.items() if v == val)
+        ),
+    ),
+    # i-fill alarm relay
+    JudoSelectEntityDescription(
+        key="ifill_alarm_relay",
+        translation_key="ifill_alarm_relay",
+        icon="mdi:alarm-light-outline",
+        entity_category=EntityCategory.CONFIG,
+        required_capability=Capability.FILL_ALARM_RELAY,
+        options_map=IFILL_ALARM_RELAY_MODES,
+        current_fn=None,
+        select_fn=lambda coord, val: coord.client.ifill_set_alarm_relay(
+            next(k for k, v in IFILL_ALARM_RELAY_MODES.items() if v == val)
         ),
     ),
 )

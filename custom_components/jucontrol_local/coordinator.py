@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 from typing import Any
 
@@ -52,6 +52,10 @@ class JudoDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.service_address: str = ""
         self._initial_fetch_done = False
 
+        # For derived current flow rate (delta of total_water)
+        self._prev_total_water: int | None = None
+        self._prev_total_water_time: datetime | None = None
+
     @property
     def device_family(self) -> DeviceFamily | None:
         """Return the device family."""
@@ -89,7 +93,10 @@ class JudoDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             await self._fetch_static_data()
             self._initial_fetch_done = True
 
-        data: dict[str, Any] = {}
+        data: dict[str, Any] = {
+            "commissioning_date": self.commissioning_date,
+            "service_address": self.service_address,
+        }
 
         try:
             # Operating hours (all devices)
@@ -109,7 +116,25 @@ class JudoDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 )
 
             if self.has_capability(Capability.TOTAL_WATER):
-                data["total_water"] = await self.client.get_total_water()
+                current_water = await self.client.get_total_water()
+                data["total_water"] = current_water
+                now = datetime.now(timezone.utc)
+                if (
+                    self._prev_total_water is not None
+                    and self._prev_total_water_time is not None
+                ):
+                    delta_liters = current_water - self._prev_total_water
+                    delta_seconds = (now - self._prev_total_water_time).total_seconds()
+                    if delta_seconds > 0 and delta_liters >= 0:
+                        data["current_flow_rate"] = round(
+                            delta_liters / delta_seconds * 3600, 1
+                        )
+                    else:
+                        data["current_flow_rate"] = 0.0
+                else:
+                    data["current_flow_rate"] = None
+                self._prev_total_water = current_water
+                self._prev_total_water_time = now
 
             if self.has_capability(Capability.SOFT_WATER):
                 data["soft_water"] = await self.client.get_soft_water()

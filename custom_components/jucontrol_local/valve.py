@@ -44,7 +44,7 @@ VALVE_DESCRIPTIONS: tuple[JudoValveEntityDescription, ...] = (
     # ZEWA leak protection valve
     JudoValveEntityDescription(
         key="zewa_leak_protection",
-        translation_key="leak_protection",
+        translation_key="zewa_leak_protection",
         device_class=ValveDeviceClass.WATER,
         required_capability=Capability.ZEWA_LEAK_PROTECTION,
         open_fn=lambda coord: coord.client.zewa_open_leak_protection(),

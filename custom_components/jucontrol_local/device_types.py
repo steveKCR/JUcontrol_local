@@ -217,7 +217,6 @@ def get_platforms_for_device(type_code: int) -> list[str]:
         Capability.SET_SALT,
         Capability.EXTRACTION_LIMITS,
         Capability.ZEWA_SLEEP,
-        Capability.DOSING_CONTROL,
     }:
         platforms.append("number")
 
@@ -225,9 +224,12 @@ def get_platforms_for_device(type_code: int) -> list[str]:
     if caps & {
         Capability.HARDNESS_UNIT,
         Capability.PUMP_CONTROL,
+        Capability.DOSING_CONTROL,
         Capability.FILL_VALVE,
+        Capability.FILL_ALARM_RELAY,
         Capability.VACATION_MODE,
         Capability.ZEWA_VACATION,
+        Capability.SCENES,
     }:
         platforms.append("select")
 

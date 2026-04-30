@@ -1,0 +1,73 @@
+blueprint:
+  name: JUcontrol Leak Protection Alert
+  description: >
+    Sends an immediate alert when the JUcontrol leak protection valve closes
+    unexpectedly (i.e. a leak was detected). Works with both i-soft SAFE+ and
+    ZEWA i-SAFE devices.
+  domain: automation
+  author: itsh-neumeier
+  homeassistant:
+    min_version: 2026.3.0
+  input:
+    valve_entity:
+      name: Leak protection valve entity
+      description: >
+        The valve entity that represents the leak protection (e.g.
+        valve.leak_protection or valve.zewa_leak_protection).
+      selector:
+        entity:
+          filter:
+            - integration: jucontrol_local
+              domain: valve
+    notification_title:
+      name: Notification title
+      default: "JUcontrol: Leak detected!"
+      selector:
+        text:
+    notification_message:
+      name: Notification message
+      description: Message shown in the persistent notification.
+      default: >
+        The leak protection valve has closed. Please check your water
+        installation for leaks before reopening the valve.
+      selector:
+        text:
+          multiline: true
+    alert_actions:
+      name: Additional actions
+      description: >
+        Optional custom actions to run when a leak is detected (e.g. send a
+        push notification). If left empty, only a persistent notification is
+        created.
+      default: []
+      selector:
+        action:
+
+mode: single
+
+variables:
+  valve_entity: !input valve_entity
+  notification_title: !input notification_title
+  notification_message: !input notification_message
+  alert_actions: !input alert_actions
+
+triggers:
+  - trigger: state
+    entity_id: !input valve_entity
+    to: "closed"
+    for:
+      seconds: 5
+
+actions:
+  - action: persistent_notification.create
+    data:
+      title: "{{ notification_title }}"
+      message: >-
+        {{ notification_message }}
+        Valve: {{ state_attr(valve_entity, 'friendly_name') | default(valve_entity) }}.
+        Closed at: {{ now().strftime('%Y-%m-%d %H:%M:%S') }}.
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ alert_actions | count > 0 }}"
+        sequence: !input alert_actions

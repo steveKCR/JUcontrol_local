@@ -40,8 +40,11 @@
       "salt_shortage_warning": { "name": "Salt shortage warning (days)" },
       "total_water": { "name": "Total water volume" },
       "soft_water": { "name": "Soft water volume" },
+      "current_flow_rate": { "name": "Current flow rate" },
       "hardness_unit": { "name": "Hardness unit" },
       "operating_days": { "name": "Operating days" },
+      "commissioning_date": { "name": "Commissioning date" },
+      "service_address": { "name": "Service address" },
       "max_extraction_duration": { "name": "Max extraction duration" },
       "max_extraction_volume": { "name": "Max extraction volume" },
       "max_flow_rate": { "name": "Max flow rate" },
@@ -61,7 +64,14 @@
       "ifill_max_fill_pressure": { "name": "Max fill pressure" },
       "ifill_cartridge_type": { "name": "Cartridge type" },
       "ifill_raw_water_hardness": { "name": "Raw water hardness" },
-      "ifill_max_conductivity": { "name": "Max conductivity" }
+      "ifill_max_conductivity": { "name": "Max conductivity" },
+      "ifill_hysteresis_fill_pressure": { "name": "Hysteresis fill pressure" },
+      "ifill_max_fill_cycles": { "name": "Max fill cycles" },
+      "ifill_max_fill_time": { "name": "Max fill time" },
+      "ifill_max_fill_volume": { "name": "Max fill volume" },
+      "ifill_cartridge_capacity": { "name": "Cartridge capacity" },
+      "ifill_heating_content": { "name": "Heating content" },
+      "idos_water_consumption": { "name": "Total water consumption" }
     },
     "binary_sensor": {
       "learning_mode_active": { "name": "Learning mode active" }
@@ -73,7 +83,8 @@
       "start_learning_mode": { "name": "Start learning mode" }
     },
     "valve": {
-      "leak_protection": { "name": "Leak protection" }
+      "leak_protection": { "name": "Leak protection" },
+      "zewa_leak_protection": { "name": "Leak protection (ZEWA)" }
     },
     "switch": {
       "sleep_mode": { "name": "Sleep mode" }
@@ -92,7 +103,10 @@
       "pump_mode": { "name": "Pump operation mode" },
       "fill_valve_mode": { "name": "Fill valve mode" },
       "vacation_mode": { "name": "Vacation mode" },
-      "micro_leak_mode": { "name": "Micro-leak mode" }
+      "micro_leak_mode": { "name": "Micro-leak mode" },
+      "pro_scene": { "name": "Water scene" },
+      "idos_concentration_select": { "name": "Dosing concentration (set)" },
+      "ifill_alarm_relay": { "name": "Alarm relay" }
     }
   }
 }

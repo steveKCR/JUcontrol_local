@@ -40,8 +40,11 @@
       "salt_shortage_warning": { "name": "Salzmangelwarnung (Tage)" },
       "total_water": { "name": "Gesamtwassermenge" },
       "soft_water": { "name": "Weichwassermenge" },
+      "current_flow_rate": { "name": "Aktueller Durchfluss" },
       "hardness_unit": { "name": "Härteeinheit" },
       "operating_days": { "name": "Betriebstage" },
+      "commissioning_date": { "name": "Inbetriebnahmedatum" },
+      "service_address": { "name": "Serviceadresse" },
       "max_extraction_duration": { "name": "Max. Entnahmedauer" },
       "max_extraction_volume": { "name": "Max. Entnahmemenge" },
       "max_flow_rate": { "name": "Max. Volumenstrom" },
@@ -61,7 +64,14 @@
       "ifill_max_fill_pressure": { "name": "Max. Fülldruck" },
       "ifill_cartridge_type": { "name": "Patronentyp" },
       "ifill_raw_water_hardness": { "name": "Rohwasserhärte" },
-      "ifill_max_conductivity": { "name": "Max. Leitwert" }
+      "ifill_max_conductivity": { "name": "Max. Leitwert" },
+      "ifill_hysteresis_fill_pressure": { "name": "Hysterese-Fülldruck" },
+      "ifill_max_fill_cycles": { "name": "Max. Füllzyklen" },
+      "ifill_max_fill_time": { "name": "Max. Füllzeit" },
+      "ifill_max_fill_volume": { "name": "Max. Füllmenge" },
+      "ifill_cartridge_capacity": { "name": "Patronenkapazität" },
+      "ifill_heating_content": { "name": "Heizungsinhalt" },
+      "idos_water_consumption": { "name": "Wasserverbrauch gesamt" }
     },
     "binary_sensor": {
       "learning_mode_active": { "name": "Lernmodus aktiv" }
@@ -73,7 +83,8 @@
       "start_learning_mode": { "name": "Lernmodus starten" }
     },
     "valve": {
-      "leak_protection": { "name": "Leckageschutz" }
+      "leak_protection": { "name": "Leckageschutz" },
+      "zewa_leak_protection": { "name": "Leckageschutz (ZEWA)" }
     },
     "switch": {
       "sleep_mode": { "name": "Sleepmodus" }
@@ -92,7 +103,10 @@
       "pump_mode": { "name": "Pumpenbetriebsart" },
       "fill_valve_mode": { "name": "Füllventilmodus" },
       "vacation_mode": { "name": "Urlaubsmodus" },
-      "micro_leak_mode": { "name": "Mikroleckage-Modus" }
+      "micro_leak_mode": { "name": "Mikroleckage-Modus" },
+      "pro_scene": { "name": "Wasserszene" },
+      "idos_concentration_select": { "name": "Dosierkonzentration (setzen)" },
+      "ifill_alarm_relay": { "name": "Alarm-Relais" }
     }
   }
 }

@@ -201,11 +201,27 @@ class JudoApiClient:
         _LOGGER.debug("Sending command: GET %s", url)
 
         try:
+            return await self._do_request(url)
+        except _RetryableError:
+            _LOGGER.debug("Device busy (429), retrying after 2s: %s", url)
+            await asyncio.sleep(2)
+            try:
+                return await self._do_request(url)
+            except _RetryableError as err:
+                raise JudoConnectionError(
+                    f"Device at {self._host} is busy, retry failed"
+                ) from err
+
+    async def _do_request(self, url: str) -> str:
+        """Execute a single HTTP GET request to the device."""
+        try:
             async with self._session.get(
                 url, auth=self._auth, timeout=self._timeout
             ) as response:
                 if response.status == 401:
                     raise JudoAuthError("Authentication failed")
+                if response.status == 429:
+                    raise _RetryableError()
                 if response.status != 200:
                     raise JudoCommandError(
                         f"Command failed with status {response.status}"
@@ -568,3 +584,7 @@ class JudoAuthError(Exception):
 
 class JudoCommandError(Exception):
     """Command execution error on JUDO device."""
+
+
+class _RetryableError(Exception):
+    """Internal: device is busy, caller should retry after delay."""

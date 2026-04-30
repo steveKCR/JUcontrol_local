@@ -89,3 +89,25 @@ MICRO_LEAK_SETTINGS: dict[int, str] = {
     1: "notify_only",
     2: "notify_and_close",
 }
+
+# i-soft PRO water scenes (scenes 0-10, cmd 0x36)
+PRO_SCENES: dict[int, str] = {
+    0: "everyday",
+    1: "personal_care",
+    2: "garden",
+    3: "vacation",
+    4: "bed",
+    5: "entrance",
+    6: "guest",
+    7: "office",
+    8: "basement",
+    9: "garage",
+    10: "custom",
+}
+
+# i-fill alarm relay modes (cmd 0x54)
+IFILL_ALARM_RELAY_MODES: dict[int, str] = {
+    0: "auto",
+    128: "off",
+    129: "on",
+}

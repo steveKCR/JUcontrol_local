@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-04-30
+
+### Fixed
+
+- `DOSING_CONTROL` capability no longer incorrectly triggers the `number` platform (which had no matching entities, causing an empty platform load for i-dos devices)
+- Duplicate inline micro-leak option map in `select.py` replaced with the shared `MICRO_LEAK_SETTINGS` constant from `const.py`
+- Missing translation entries for `valve.zewa_leak_protection` added to both `de.json` and `strings.json`
+
+### Added
+
+- **API robustness**: `send_command()` now automatically retries once after 2 s on HTTP 429 (device busy), as documented in the JUDO connectivity manual
+- **i-soft PRO – Water scene select**: New `pro_scene` select entity (11 scenes: Alltag, Körperpflege, Garten, …) using cmd `0x36`; requires `SCENES` capability
+- **i-dos eco – Dosing concentration select**: New `idos_concentration_select` select entity (min / norm / max) using cmd `0x52`; requires `DOSING_CONTROL` capability
+- **i-fill – Alarm relay select**: New `ifill_alarm_relay` select entity (auto / off / on) using cmd `0x54`; requires `FILL_ALARM_RELAY` capability
+- **i-dos eco – Total water consumption sensor**: New `idos_water_consumption` sensor (L, total increasing) from i-dos status data
+- **i-fill – Six additional diagnostic sensors**: `ifill_hysteresis_fill_pressure`, `ifill_max_fill_cycles`, `ifill_max_fill_time`, `ifill_max_fill_volume`, `ifill_cartridge_capacity`, `ifill_heating_content` – all parsed from the existing `0x42` response
+- **New constants**: `PRO_SCENES` (scene index → name map) and `IFILL_ALARM_RELAY_MODES` added to `const.py`
+- **Commissioning date and service address sensors**: Two new diagnostic sensors (`commissioning_date`, `service_address`) are now visible as entities for all device types; data was already fetched but previously only available in the HA diagnostics download
+- **Current flow rate sensor** (`current_flow_rate`, disabled by default): Derived sensor for all devices with `TOTAL_WATER` capability (i-soft SAFE+, i-soft K SAFE+, i-soft PRO, i-soft, ZEWA, i-dos, i-fill). Calculated from the delta of the already-polled total water volume between consecutive update cycles — no extra API call needed. Unit: L/h, updated every polling interval
+- **New blueprint**: `jucontrol_leak_protection_alert.yaml` – fires when the leak protection valve closes unexpectedly, creates a persistent notification and supports optional custom actions; compatible with both i-soft SAFE+ and ZEWA i-SAFE
+
 ## [1.2.2] - 2026-03-22
 
 ### Changed

@@ -116,7 +116,9 @@ class JudoOptionsFlow(OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
-        current_interval = self._config_entry.data.get(
+        current_interval = self._config_entry.options.get(
+            CONF_SCAN_INTERVAL
+        ) or self._config_entry.data.get(
             CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
         )
 
